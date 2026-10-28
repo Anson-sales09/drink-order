@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>萃韻茶作 Crafted Tea Studio | 質感手搖茶飲線上點餐</title>
+  <meta name="description" content="嚴選台灣在地高山茶葉與純淨鮮乳，提供透明熱量與營養標示、客製化甜度冰塊與加料，支援辦公室揪團湊單與 LINE 一鍵訂購。">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            tea: {
+              50: '#f4f7f4',
+              100: '#e5ece5',
+              200: '#cddbcd',
+              300: '#a7c2a7',
+              400: '#79a279',
+              500: '#548354',
+              600: '#3e663e',
+              700: '#325232',
+              800: '#2a422a',
+              900: '#1b321b',
+              950: '#0f1d0f',
+            },
+            ambertea: {
+              50: '#fffbf5',
+              100: '#fef5e7',
+              200: '#fae7c7',
+              300: '#f4d29c',
+              400: '#ecb567',
+              500: '#e3993c',
+              600: '#cc7d2b',
+              700: '#a85f24',
+              800: '#874b23',
+              900: '#6f3f20',
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+            serif: ['"Playfair Display"', '"Noto Serif TC"', 'serif'],
+            display: ['"Cinzel"', '"Noto Serif TC"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .glass-dark {
+      background: rgba(15, 29, 15, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .badge-pulse {
+      animation: pulse-subtle 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-[#FAF8F5] text-stone-800 font-sans antialiased selection:bg-tea-600 selection:text-white pb-24 md:pb-12">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-tea-900 text-amber-100 text-xs py-2 px-4 text-center font-medium tracking-wider flex items-center justify-center gap-2">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+    <span>🌿 響應環保法規：自備環保杯現場每杯現折 <strong>$5 元</strong> ｜ 辦公室滿 <strong>$350</strong> 即享免費專人外送</span>
+    <button onclick="openApiConfigModal()" class="ml-3 underline hover:text-white text-[11px] transition">⚙️ 串接設定</button>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-30 glass-card border-b border-tea-100/80 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-tea-800 to-tea-600 flex items-center justify-center text-white shadow-md shadow-tea-900/20">
+            <i data-lucide="cup-soda" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="font-display font-bold text-xl md:text-2xl text-tea-950 tracking-wider flex items-center gap-2">
+              萃韻茶作
+              <span class="text-[10px] tracking-normal font-sans px-2 py-0.5 rounded-full bg-ambertea-100 text-ambertea-800 border border-ambertea-300">GH-Pages 升級版</span>
+            </div>
+            <p class="text-[11px] text-tea-700 tracking-widest font-serif uppercase">Crafted Tea Studio & Lab</p>
+          </div>
+        </div>
+
+        <!-- Search Bar (Desktop) -->
+        <div class="hidden md:flex items-center flex-1 max-w-md mx-8 relative">
+          <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="搜尋茶品名稱、茶葉產地、低卡推薦..." 
+            class="w-full bg-white/90 border border-tea-200/90 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tea-500 focus:border-transparent transition shadow-inner"
+            oninput="handleSearch(this.value)"
+          >
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 text-stone-400 hover:text-stone-600">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Office Group Order Tool -->
+          <button 
+            onclick="openGroupOrderModal()" 
+            class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-tea-800 bg-tea-100 hover:bg-tea-200 transition"
+            title="辦公室揪團統計神器"
+          >
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>揪團湊單神器</span>
+          </button>
+
+          <!-- Nutrition Guide Button -->
+          <button 
+            onclick="openNutritionOverviewModal()" 
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-amber-900 bg-amber-100 hover:bg-amber-200 transition"
+            title="熱量與營養標示指南"
+          >
+            <i data-lucide="heart-pulse" class="w-4 h-4 text-rose-600"></i>
+            <span class="hidden sm:inline">熱量與咖啡因規範</span>
+          </button>
+
+          <!-- Cart Button -->
+          <button 
+            onclick="toggleCart()" 
+            class="relative inline-flex items-center justify-center p-2.5 sm:px-4 sm:py-2 rounded-2xl bg-tea-800 hover:bg-tea-900 text-white font-medium shadow-md shadow-tea-900/15 transition group"
+          >
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            <span class="hidden sm:inline-block ml-2 text-sm font-semibold">點單明細</span>
+            <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-stone-900 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-white">0</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="md:hidden pb-3 pt-1">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3"></i>
+          <input 
+            type="text" 
+            id="mobileSearchInput" 
+            placeholder="搜尋飲品、熱量、風味或茶葉產地..." 
+            class="w-full bg-white/90 border border-tea-200 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-tea-500"
+            oninput="handleSearch(this.value)"
+          >
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Brand & Quality Promise -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-tea-900 via-tea-800 to-tea-950 text-white py-14 md:py-20 px-4 sm:px-6">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#a7c2a7_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="max-w-5xl mx-auto relative z-10 text-center">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-amber-200 text-xs font-medium mb-6 border border-white/10 badge-pulse">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+        <span>台灣在地手摘春茶 ✕ 食藥署全透明營養與熱量標示</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold tracking-tight text-white mb-6 leading-tight">
+        品嚐純粹原葉的醇厚甘韻，<br>
+        <span class="text-amber-200 italic font-normal">掌控每一杯的輕盈熱量。</span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-tea-100/90 text-sm sm:text-base leading-relaxed mb-8">
+        全系列使用台灣在地茶園鮮摘手焙原葉茶，搭配 100% 國產鮮乳與手工手炒糖。即時計算每杯甜度與加料之卡路里與咖啡因，讓辦公室揪團點得開心又安心。
+      </p>
+
+      <!-- Three Pillars of Quality -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-amber-300 mb-2"><i data-lucide="mountain-snow" class="w-5 h-5"></i></div>
+          <div class="font-bold text-sm text-white">台灣高山產地</div>
+          <div class="text-[11px] text-tea-200 mt-1">產銷履歷驗證茶葉</div>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-emerald-300 mb-2"><i data-lucide="activity" class="w-5 h-5"></i></div>
+          <div class="font-bold text-sm text-white">透明動態熱量</div>
+          <div class="text-[11px] text-tea-200 mt-1">甜度加料精確試算</div>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-amber-300 mb-2"><i data-lucide="coffee" class="w-5 h-5"></i></div>
+          <div class="font-bold text-sm text-white">咖啡因分級制度</div>
+          <div class="text-[11px] text-tea-200 mt-1">紅/黃/綠標示好掌握</div>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-emerald-300 mb-2"><i data-lucide="cloud" class="w-5 h-5"></i></div>
+          <div class="font-bold text-sm text-white">GAS 雲端串接</div>
+          <div class="text-[11px] text-tea-200 mt-1">直接寫入 Google 試算表</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+    
+    <!-- Category Navigation Sticky Bar -->
+    <div class="glass-card rounded-2xl p-3 shadow-lg border border-stone-200/80 mb-8 sticky top-24 z-20">
+      <div class="flex items-center justify-between gap-2">
+        
+        <!-- Category Filter Tabs (Horizontal Scrollable) -->
+        <div id="categoryContainer" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+          <!-- Dynamic category pills injected via JS -->
+        </div>
+
+        <!-- Filter Dropdown / Quick Filter Badges -->
+        <div class="hidden lg:flex items-center gap-2 pl-4 border-l border-stone-200 text-xs shrink-0">
+          <button onclick="toggleQuickFilter('recommend')" id="filter-recommend" class="px-3 py-1.5 rounded-full border border-stone-200 text-stone-600 hover:border-tea-600 hover:text-tea-800 transition flex items-center gap-1">
+            <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-amber-500"></i> 人氣推薦
+          </button>
+          <button onclick="toggleQuickFilter('low_cal')" id="filter-low_cal" class="px-3 py-1.5 rounded-full border border-stone-200 text-stone-600 hover:border-tea-600 hover:text-tea-800 transition flex items-center gap-1">
+            <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-500"></i> 輕卡控糖
+          </button>
+          <button onclick="toggleQuickFilter('decaf')" id="filter-decaf" class="px-3 py-1.5 rounded-full border border-stone-200 text-stone-600 hover:border-tea-600 hover:text-tea-800 transition flex items-center gap-1">
+            <i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i> 無咖啡因
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Active Filter Display / Result Count -->
+    <div class="flex items-center justify-between mb-6 px-1">
+      <div class="flex items-center gap-2">
+        <h2 id="currentCategoryTitle" class="text-xl sm:text-2xl font-bold font-serif text-tea-950 flex items-center gap-2">
+          所有品項系列
+        </h2>
+        <span id="drinkCountBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-tea-100 text-tea-800 font-semibold">18 款茶飲</span>
+      </div>
+      <div class="text-xs text-stone-500 flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 綠燈 &lt;100mg
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500"></span> 黃燈 101~200mg
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-rose-500"></span> 紅燈 &gt;200mg
+      </div>
+    </div>
+
+    <!-- Beverage Grid -->
+    <div id="drinksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Dynamic Drink Cards Injected by JavaScript -->
+    </div>
+
+    <!-- Empty State for Search -->
+    <div id="emptyState" class="hidden text-center py-20 bg-white rounded-3xl border border-stone-200 my-8">
+      <div class="w-16 h-16 mx-auto rounded-full bg-stone-100 flex items-center justify-center text-stone-400 mb-4">
+        <i data-lucide="search-x" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-bold text-stone-700">找不到符合條件的茶品</h3>
+      <p class="text-sm text-stone-500 mt-1">請嘗試其他關鍵字，如「紅茶」、「鮮奶」、「無咖啡因」</p>
+      <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 bg-tea-700 text-white text-xs font-semibold rounded-xl hover:bg-tea-800 transition">
+        重設搜尋條件
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Product Details & Nutrition Information Modal -->
+  <div id="productDetailModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden border border-stone-200 transform transition-all my-8 max-h-[90vh] flex flex-col">
+      
+      <!-- Modal Header -->
+      <div class="relative bg-gradient-to-r from-tea-900 to-tea-800 text-white p-6 shrink-0">
+        <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-2 mb-2">
+          <span id="modalCategoryTag" class="text-[11px] font-semibold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-ambertea-500 text-white">原茶系列</span>
+          <span id="modalCaffeineTag" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white">綠燈 45mg</span>
+        </div>
+        <h3 id="modalDrinkName" class="text-2xl font-serif font-bold text-white">松柏嶺四季春</h3>
+        <p id="modalDrinkEnName" class="text-xs text-tea-200 font-sans tracking-wider mt-0.5">Four Seasons Oolong Tea</p>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-6 text-sm text-stone-700">
+        
+        <!-- Flavor Profile & Origin Story -->
+        <div>
+          <h4 class="font-bold text-tea-900 text-base flex items-center gap-2 mb-2">
+            <i data-lucide="sparkle" class="w-4 h-4 text-ambertea-600"></i> 風味介紹與產地故事
+          </h4>
+          <p id="modalDrinkStory" class="leading-relaxed text-stone-600 bg-tea-50/60 p-4 rounded-2xl border border-tea-100">
+            嚴選台灣南投松柏嶺茶區，海拔 400-600 公尺之優質四季春茶樹，經輕度發酵與慢火焙製，茶湯翠綠清透，前調帶有典雅白玉蘭花清香，中調甘醇順口，尾韻生津持久。
+          </p>
+        </div>
+
+        <!-- Tasting Notes Tags -->
+        <div>
+          <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block mb-2">風味調性指標</span>
+          <div id="modalTastingNotes" class="flex flex-wrap gap-2">
+            <!-- Dynamic tags -->
+          </div>
+        </div>
+
+        <!-- Nutrition & Calorie Table -->
+        <div class="border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
+          <div class="bg-stone-50 px-4 py-3 border-b border-stone-200 flex items-center justify-between">
+            <div class="font-bold text-stone-800 flex items-center gap-2">
+              <i data-lucide="table" class="w-4 h-4 text-tea-700"></i> 全規格熱量與糖量基準表
+            </div>
+            <span class="text-[11px] text-stone-500">*以一般無糖/全糖參考</span>
+          </div>
+
+          <div class="p-4 grid grid-cols-3 gap-3 text-center">
+            <div class="bg-tea-50/70 p-3 rounded-xl border border-tea-100">
+              <div class="text-xs text-stone-500">大杯 (L 660ml)</div>
+              <div id="modalCalL" class="text-lg font-bold text-tea-900 mt-1">160 <span class="text-xs font-normal">kcal</span></div>
+              <div id="modalSugarL" class="text-[11px] text-stone-600 mt-0.5">總糖量: 32g</div>
+            </div>
+            <div class="bg-tea-50/70 p-3 rounded-xl border border-tea-100">
+              <div class="text-xs text-stone-500">中杯 (M 480ml)</div>
+              <div id="modalCalM" class="text-lg font-bold text-tea-900 mt-1">120 <span class="text-xs font-normal">kcal</span></div>
+              <div id="modalSugarM" class="text-[11px] text-stone-600 mt-0.5">總糖量: 24g</div>
+            </div>
+            <div class="bg-tea-50/70 p-3 rounded-xl border border-tea-100">
+              <div class="text-xs text-stone-500">溫熱飲 (Hot 500ml)</div>
+              <div id="modalCalHot" class="text-lg font-bold text-tea-900 mt-1">135 <span class="text-xs font-normal">kcal</span></div>
+              <div id="modalSugarHot" class="text-[11px] text-stone-600 mt-0.5">總糖量: 26g</div>
+            </div>
+          </div>
+
+          <!-- Dynamic Sweetness Calorie Scale Explanation -->
+          <div class="bg-amber-50/50 p-4 border-t border-stone-100 text-xs text-stone-600">
+            <div class="font-semibold text-ambertea-800 mb-1 flex items-center gap-1.5">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i> 甜度熱量換算規則（每 10g 蔗糖液糖約含 40 kcal）：
+            </div>
+            <p>無糖 (0%)：原茶幾乎 0 卡 ｜ 微糖 (30%)：約 +48 kcal ｜ 半糖 (50%)：約 +80 kcal ｜ 少糖 (70%)：約 +112 kcal ｜ 全糖 (100%)：約 +160 kcal。</p>
+          </div>
+        </div>
+
+        <!-- Ingredients & Sourcing -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-3 bg-stone-50 rounded-xl border border-stone-200">
+            <span class="text-stone-400 block mb-1">茶葉產地標示</span>
+            <span id="modalTeaSource" class="font-bold text-stone-800 text-sm">台灣南投縣名間鄉</span>
+          </div>
+          <div class="p-3 bg-stone-50 rounded-xl border border-stone-200">
+            <span class="text-stone-400 block mb-1">糖分來源</span>
+            <span class="font-bold text-stone-800 text-sm">100% 台糖本土天然甘蔗液糖</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-xs text-stone-500">單杯售價</span>
+          <div id="modalPriceDisplay" class="text-xl font-bold text-tea-900">$45 起</div>
+        </div>
+        <button id="modalOrderNowBtn" class="px-6 py-2.5 rounded-2xl bg-tea-800 hover:bg-tea-900 text-white font-semibold text-sm transition shadow-md shadow-tea-900/10 flex items-center gap-2">
+          <i data-lucide="plus" class="w-4 h-4"></i> 開始客製規格
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Beverage Customization & Ordering Modal -->
+  <div id="orderModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl overflow-hidden border border-stone-200 transform transition-all my-6 max-h-[92vh] flex flex-col">
+      
+      <!-- Customization Header with Live Dynamic Calorie Display -->
+      <div class="bg-gradient-to-r from-tea-900 via-tea-800 to-tea-950 text-white p-5 shrink-0 relative">
+        <button onclick="closeOrderModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+
+        <div class="flex items-center gap-3">
+          <div id="orderModalImage" class="w-14 h-14 rounded-2xl bg-white/10 overflow-hidden flex items-center justify-center shrink-0 border border-white/20 text-2xl">
+            🍵
+          </div>
+          <div class="flex-1 pr-6">
+            <div class="flex items-center gap-2">
+              <h3 id="orderModalDrinkName" class="text-xl font-bold font-serif text-white">松柏嶺四季春</h3>
+              <span id="orderModalBasePrice" class="text-xs bg-ambertea-500 px-2 py-0.5 rounded-full font-bold">$40</span>
+            </div>
+            <p id="orderModalCategory" class="text-xs text-tea-200 mt-0.5">經典原茶系列</p>
+          </div>
+        </div>
+
+        <!-- Live Dynamic Nutrition Bar inside Header -->
+        <div class="mt-4 bg-black/25 backdrop-blur-md rounded-2xl p-3 border border-white/15 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i data-lucide="flame" class="w-5 h-5 text-amber-400"></i>
+            <div>
+              <div class="text-[10px] text-tea-200 font-medium">當前客製化即時總熱量</div>
+              <div class="text-lg font-black tracking-tight text-white flex items-baseline gap-1">
+                <span id="liveCalorieDisplay">120</span>
+                <span class="text-xs font-normal text-amber-200">kcal</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="h-8 w-px bg-white/20"></div>
+
+          <div>
+            <div class="text-[10px] text-tea-200 font-medium">預估糖量</div>
+            <div class="text-sm font-bold text-white flex items-baseline gap-1">
+              <span id="liveSugarDisplay">24</span>
+              <span class="text-[11px] font-normal text-stone-300">g</span>
+            </div>
+          </div>
+
+          <div class="h-8 w-px bg-white/20"></div>
+
+          <div>
+            <div class="text-[10px] text-tea-200 font-medium">咖啡因指標</div>
+            <div id="liveCaffeineTag" class="text-xs font-bold text-emerald-300">
+              ● 綠燈 (45mg)
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Customization Options Body (Scrollable) -->
+      <div class="p-5 overflow-y-auto space-y-6 text-sm">
+        
+        <!-- Size / Temperature Spec -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+            <span>1. 選擇規格容量 <span class="text-rose-500">*</span></span>
+            <span class="text-[11px] text-stone-400 font-normal">基準尺寸</span>
+          </label>
+          <div class="grid grid-cols-3 gap-2.5" id="sizeOptionsContainer">
+            <button type="button" onclick="selectSize('L')" data-size="L" class="size-btn py-2.5 px-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center border-tea-700 bg-tea-50/50 text-tea-900 font-bold">
+              <span class="text-sm">大杯 (L)</span>
+              <span class="text-[10px] text-stone-500 font-normal">660ml</span>
+            </button>
+            <button type="button" onclick="selectSize('M')" data-size="M" class="size-btn py-2.5 px-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center border-stone-200 hover:border-tea-300 text-stone-700">
+              <span class="text-sm">中杯 (M)</span>
+              <span class="text-[10px] text-stone-500 font-normal">480ml (-$5)</span>
+            </button>
+            <button type="button" onclick="selectSize('Hot')" data-size="Hot" class="size-btn py-2.5 px-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center border-stone-200 hover:border-tea-300 text-stone-700">
+              <span class="text-sm">熱飲 (Hot)</span>
+              <span class="text-[10px] text-stone-500 font-normal">500ml 溫熱享用</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sweetness Selection -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+            <span>2. 甜度選擇 <span class="text-rose-500">*</span></span>
+            <span class="text-[11px] text-stone-400 font-normal">蔗糖熱量試算</span>
+          </label>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="sweetnessOptionsContainer">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Ice Level Selection -->
+        <div id="iceSection">
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+            <span>3. 冰塊溫度 <span class="text-rose-500">*</span></span>
+            <span class="text-[11px] text-stone-400 font-normal">茶感濃淡調節</span>
+          </label>
+          <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="iceOptionsContainer">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Toppings Selection (Multi-select) -->
+        <div>
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+            <span>4. 手作經典加料（可複選）</span>
+            <span class="text-[11px] text-tea-700 font-normal">卡路里即時加總</span>
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="toppingsContainer">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Eco Cup Discount & Notes -->
+        <div class="space-y-3 pt-2 border-t border-stone-200">
+          <!-- Eco Cup Toggle -->
+          <label class="flex items-center gap-3 p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl cursor-pointer hover:bg-emerald-50 transition">
+            <input type="checkbox" id="ecoCupCheckbox" class="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500 accent-emerald-600" onchange="updateLiveCalculation()">
+            <div class="flex-1">
+              <span class="font-bold text-emerald-900 text-xs sm:text-sm flex items-center gap-1.5">
+                <i data-lucide="recycle" class="w-4 h-4 text-emerald-600"></i> 自備環保杯優惠 (每杯現折 $5)
+              </span>
+              <p class="text-[11px] text-emerald-700 mt-0.5">自備非一次性飲料杯，結帳時享有環保回饋折扣。</p>
+            </div>
+            <span class="font-bold text-emerald-700 text-sm">-$5</span>
+          </label>
+
+          <!-- Note Input -->
+          <div>
+            <label class="block text-xs font-semibold text-stone-600 mb-1">特別客製需求備註（選填）</label>
+            <input 
+              type="text" 
+              id="drinkCustomNote" 
+              placeholder="例如：茶濃一點、珍珠另外裝、無糖但加厚..." 
+              class="w-full text-xs bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+            >
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Customization Footer -->
+      <div class="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between shrink-0">
+        
+        <!-- Quantity Selector -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-stone-500 font-medium">數量</span>
+          <div class="flex items-center border border-stone-300 rounded-xl bg-white overflow-hidden shadow-sm">
+            <button type="button" onclick="changeQuantity(-1)" class="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition">
+              <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+            </button>
+            <span id="orderQuantityDisplay" class="w-9 text-center font-bold text-sm text-stone-800">1</span>
+            <button type="button" onclick="changeQuantity(1)" class="w-8 h-8 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Add to Cart Action -->
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <div class="text-[10px] text-stone-500">單項小計</div>
+            <div id="liveTotalPriceDisplay" class="text-xl font-bold text-tea-900">$45</div>
+          </div>
+          <button 
+            type="button" 
+            onclick="confirmAddToCart()" 
+            class="px-6 py-3 rounded-2xl bg-tea-800 hover:bg-tea-900 text-white font-bold text-sm shadow-md shadow-tea-900/15 transition flex items-center gap-2"
+          >
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span>加入點單</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cart Drawer (Side Sheet) -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+
+    <div class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col z-10 transform transition-transform duration-300">
+      
+      <!-- Cart Header -->
+      <div class="p-5 bg-tea-900 text-white flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-300"></i>
+          <h3 class="font-serif font-bold text-lg">點單明細與結帳</h3>
+          <span id="cartTotalItemsBadge" class="text-xs bg-white/20 px-2 py-0.5 rounded-full text-white">0 杯</span>
+        </div>
+        <button onclick="toggleCart()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick Office Group Order Banner -->
+      <div class="bg-ambertea-50 px-4 py-2.5 border-b border-ambertea-200 flex items-center justify-between text-xs text-ambertea-900">
+        <span class="flex items-center gap-1.5 font-medium">
+          <i data-lucide="clipboard-copy" class="w-4 h-4 text-ambertea-700"></i>
+          辦公室統計超方便
+        </span>
+        <button onclick="copyLineOrderSummary()" class="px-2.5 py-1 bg-ambertea-600 text-white rounded-lg hover:bg-ambertea-700 transition font-semibold flex items-center gap-1">
+          <i data-lucide="copy" class="w-3 h-3"></i> 複製 LINE 訂購單
+        </button>
+      </div>
+
+      <!-- Cart Item List (Scrollable) -->
+      <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 divide-y divide-stone-100">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Empty Cart View -->
+      <div id="emptyCartView" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center text-stone-400">
+        <div class="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center mb-4">
+          <i data-lucide="cup-soda" class="w-10 h-10 text-stone-300"></i>
+        </div>
+        <h4 class="font-bold text-stone-700 text-base mb-1">點單清單是空的</h4>
+        <p class="text-xs text-stone-500 max-w-xs">快探索我們的精選茶品與手炒鮮奶，為今天挑選一杯好茶！</p>
+      </div>
+
+      <!-- Cart Footer / Summary -->
+      <div id="cartFooter" class="p-5 bg-stone-50 border-t border-stone-200 shrink-0 space-y-3">
+        
+        <!-- Summary Numbers -->
+        <div class="space-y-1.5 text-xs text-stone-600">
+          <div class="flex justify-between">
+            <span>茶飲商品小計</span>
+            <span id="cartSubtotalDisplay" class="font-semibold text-stone-800">$0</span>
+          </div>
+          <div class="flex justify-between text-emerald-700" id="cartEcoDiscountRow">
+            <span>環保杯折扣回饋</span>
+            <span id="cartEcoDiscountDisplay" class="font-semibold">-$0</span>
+          </div>
+          <div class="flex justify-between text-amber-800">
+            <span>全單預估總熱量</span>
+            <span id="cartTotalCaloriesDisplay" class="font-semibold">0 kcal</span>
+          </div>
+          <div class="pt-2 border-t border-stone-200 flex justify-between items-baseline text-sm">
+            <span class="font-bold text-stone-900 text-base">應付結帳總額</span>
+            <span id="cartGrandTotalDisplay" class="font-black text-2xl text-tea-900 font-serif">$0</span>
+          </div>
+        </div>
+
+        <!-- Checkout Buttons -->
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button 
+            onclick="clearEntireCart()" 
+            class="py-3 px-4 rounded-xl border border-stone-300 text-stone-600 hover:bg-stone-100 text-xs font-semibold transition"
+          >
+            清空購物車
+          </button>
+          <button 
+            onclick="openCheckoutModal()" 
+            id="proceedCheckoutBtn"
+            class="py-3 px-4 rounded-xl bg-tea-800 hover:bg-tea-900 text-white text-xs font-bold transition shadow-md shadow-tea-900/15 flex items-center justify-center gap-1.5"
+          >
+            <span>填寫資料結帳</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Checkout & Order Submission Modal -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-stone-200 transform transition-all my-6 max-h-[92vh] flex flex-col">
+      
+      <!-- Checkout Header -->
+      <div class="bg-tea-900 text-white p-5 shrink-0 flex items-center justify-between">
+        <div>
+          <h3 class="font-serif font-bold text-lg">填寫取餐資訊與送出訂單</h3>
+          <p class="text-xs text-tea-200 mt-0.5">支援 Google 試算表自動記錄 / 現場快速取餐</p>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Checkout Form Body (Scrollable) -->
+      <form id="checkoutForm" onsubmit="submitOrder(event)" class="p-6 overflow-y-auto space-y-4 text-xs text-stone-700 flex-1">
+        
+        <!-- Order Type -->
+        <div>
+          <label class="block font-bold text-stone-800 mb-2">取餐方式 <span class="text-rose-500">*</span></label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="border-2 border-tea-700 bg-tea-50/60 rounded-xl p-2.5 text-center cursor-pointer order-type-btn flex flex-col items-center">
+              <input type="radio" name="deliveryType" value="pickup" checked class="hidden" onchange="handleDeliveryTypeChange(this.value)">
+              <i data-lucide="store" class="w-4 h-4 text-tea-800 mb-1"></i>
+              <span class="font-bold text-tea-900">門市自取</span>
+            </label>
+            <label class="border-2 border-stone-200 hover:border-tea-300 rounded-xl p-2.5 text-center cursor-pointer order-type-btn flex flex-col items-center">
+              <input type="radio" name="deliveryType" value="delivery" class="hidden" onchange="handleDeliveryTypeChange(this.value)">
+              <i data-lucide="bike" class="w-4 h-4 text-stone-600 mb-1"></i>
+              <span class="font-bold text-stone-700">專人外送</span>
+            </label>
+            <label class="border-2 border-stone-200 hover:border-tea-300 rounded-xl p-2.5 text-center cursor-pointer order-type-btn flex flex-col items-center">
+              <input type="radio" name="deliveryType" value="office" class="hidden" onchange="handleDeliveryTypeChange(this.value)">
+              <i data-lucide="building" class="w-4 h-4 text-stone-600 mb-1"></i>
+              <span class="font-bold text-stone-700">辦公室桌號</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Customer Name & Phone -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">訂購人姓名 <span class="text-rose-500">*</span></label>
+            <input 
+              type="text" 
+              id="custName" 
+              required 
+              placeholder="例如：陳大明 / 業務部 Anson" 
+              class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+            >
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">聯絡電話 <span class="text-rose-500">*</span></label>
+            <input 
+              type="tel" 
+              id="custPhone" 
+              required 
+              placeholder="0912-345-678" 
+              class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+            >
+          </div>
+        </div>
+
+        <!-- Address or Desk Info (Dynamic based on Delivery Type) -->
+        <div id="addressSection" class="hidden">
+          <label class="block font-semibold text-stone-700 mb-1" id="addressLabel">外送地址 / 部門分機</label>
+          <input 
+            type="text" 
+            id="custAddress" 
+            placeholder="請輸入詳細地址或辦公室樓層/桌號" 
+            class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+          >
+        </div>
+
+        <!-- Preferred Pickup / Delivery Time -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">預計取餐/送達時間</label>
+            <input 
+              type="time" 
+              id="custTime" 
+              class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+            >
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">付款方式</label>
+            <select id="custPayment" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500">
+              <option value="LINE Pay">LINE Pay 線上支付</option>
+              <option value="現場取餐付款">現場取餐現金/刷卡</option>
+              <option value="街口支付">街口支付</option>
+              <option value="公司月結/統編">公司報帳統編月結</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tax ID / Invoice -->
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">統一編號 / 手機載具（選填）</label>
+          <input 
+            type="text" 
+            id="custInvoice" 
+            placeholder="例如：統編 88888888 或 /ABC+123" 
+            class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+          >
+        </div>
+
+        <!-- Order Note -->
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">全單備註說明（選填）</label>
+          <textarea 
+            id="custOrderNotes" 
+            rows="2" 
+            placeholder="需要大吸管、分裝提袋或送達時致電..." 
+            class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500 resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Backend Sync Status Indicator -->
+        <div class="p-3 rounded-2xl bg-tea-50 border border-tea-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500" id="gasStatusDot"></span>
+            <span class="text-[11px] text-tea-900 font-medium" id="gasStatusText">已就緒：支援本機收據與 GAS 雲端試算表</span>
+          </div>
+          <button type="button" onclick="openApiConfigModal()" class="text-[11px] text-tea-700 underline hover:text-tea-900">變更設定</button>
+        </div>
+
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            id="submitOrderBtn" 
+            class="w-full py-3.5 px-4 rounded-2xl bg-tea-800 hover:bg-tea-900 text-white font-bold text-sm shadow-lg shadow-tea-900/20 transition flex items-center justify-center gap-2"
+          >
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span id="submitOrderBtnText">確認送出訂單 (<span id="modalCheckoutAmount">$0</span>)</span>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Order Success Modal -->
+  <div id="orderSuccessModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-stone-200 p-6 text-center transform transition-all">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="check" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-xl font-bold font-serif text-stone-900 mb-1">訂單已成功送出！</h3>
+      <p class="text-xs text-stone-500 mb-4">系統已自動為您編製訂單明細，感謝您的支持。</p>
+
+      <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200 text-left text-xs space-y-2 mb-4">
+        <div class="flex justify-between">
+          <span class="text-stone-500">訂單編號</span>
+          <span id="successOrderId" class="font-mono font-bold text-tea-900">#ORD-20261028-001</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">訂購姓名</span>
+          <span id="successCustName" class="font-bold text-stone-800">陳大明</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">總杯數與金額</span>
+          <span id="successSummary" class="font-bold text-tea-800">3 杯 / $165 元</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">預計總熱量</span>
+          <span id="successCalories" class="font-bold text-amber-700">420 kcal</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <button onclick="copyLineOrderSummary()" class="w-full py-2.5 rounded-xl bg-ambertea-600 hover:bg-ambertea-700 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          複製 LINE 訂單格式
+        </button>
+        <button onclick="closeSuccessModalAndReset()" class="w-full py-2.5 rounded-xl bg-tea-800 hover:bg-tea-900 text-white font-semibold text-xs transition">
+          返回主頁面
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Office Group Order Modal (揪團彙整神器) -->
+  <div id="groupOrderModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-stone-200 transform transition-all my-6 max-h-[90vh] flex flex-col">
+      <div class="bg-tea-900 text-white p-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <i data-lucide="users" class="w-5 h-5 text-amber-300"></i>
+          <h3 class="font-serif font-bold text-lg">辦公室揪團湊單神器</h3>
+        </div>
+        <button onclick="closeGroupOrderModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 text-xs text-stone-700 flex-1">
+        <p class="text-stone-600 leading-relaxed bg-tea-50 p-3 rounded-xl border border-tea-100">
+          💡 <strong>主揪專用功能</strong>：系統會自動將整張購物車按「相同規格飲品」與「客製冰糖」進行同品項聚合彙整，打電話訂餐或核對群組收款超輕鬆！
+        </p>
+
+        <div>
+          <h4 class="font-bold text-stone-800 mb-2 flex items-center gap-1.5">
+            <i data-lucide="list-checks" class="w-4 h-4 text-tea-700"></i> 當前購物車聚合統計清單
+          </h4>
+          <div id="aggregatedOrderList" class="bg-stone-50 p-3.5 rounded-2xl border border-stone-200 font-mono text-[11px] whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+            目前購物車尚未有品項。
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2">
+          <button onclick="copyGroupAggregatedText()" class="py-2.5 px-3 rounded-xl bg-tea-800 hover:bg-tea-900 text-white font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i> 複製店家點餐明細
+          </button>
+          <button onclick="copyLineOrderSummary()" class="py-2.5 px-3 rounded-xl bg-ambertea-600 hover:bg-ambertea-700 text-white font-bold transition flex items-center justify-center gap-1.5">
+            <i data-lucide="message-square" class="w-3.5 h-3.5"></i> 複製 LINE 群組收款格式
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition & Regulatory Overview Modal -->
+  <div id="nutritionOverviewModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl overflow-hidden border border-stone-200 transform transition-all my-6 max-h-[90vh] flex flex-col">
+      <div class="bg-tea-900 text-white p-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <i data-lucide="heart-pulse" class="w-5 h-5 text-rose-400"></i>
+          <h3 class="font-serif font-bold text-lg">熱量與咖啡因規範透明指引</h3>
+        </div>
+        <button onclick="closeNutritionOverviewModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-xs text-stone-700 flex-1 leading-relaxed">
+        
+        <div>
+          <h4 class="font-bold text-sm text-tea-950 mb-2">一、食藥署連鎖飲料店咖啡因標示規範</h4>
+          <div class="space-y-2">
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 mt-0.5"></span>
+              <div>
+                <span class="font-bold text-emerald-900">綠燈標示 (100mg 以下 / 杯)</span>
+                <p class="text-[11px] text-emerald-700 mt-0.5">適合對咖啡因較敏感、傍晚或日常飲用無負擔。</p>
+              </div>
+            </div>
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-amber-500 shrink-0 mt-0.5"></span>
+              <div>
+                <span class="font-bold text-amber-900">黃燈標示 (101mg ~ 200mg / 杯)</span>
+                <p class="text-[11px] text-amber-700 mt-0.5">適量提神，成人每日建議咖啡因攝取上限為 300mg。</p>
+              </div>
+            </div>
+            <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-rose-500 shrink-0 mt-0.5"></span>
+              <div>
+                <span class="font-bold text-rose-900">紅燈標示 (201mg 以上 / 杯)</span>
+                <p class="text-[11px] text-rose-700 mt-0.5">濃茶系列或重焙烏龍，提神強效，孕婦與孩童請斟酌。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-sm text-tea-950 mb-2">二、手作加料熱量排行榜（每份大約數值）</h4>
+          <div class="grid grid-cols-2 gap-2 text-[11px]">
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>蜜漬黑糖珍珠</span>
+              <span class="font-bold text-rose-600">+180 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>海鹽芝士奶蓋</span>
+              <span class="font-bold text-rose-600">+150 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>雙色小芋圓</span>
+              <span class="font-bold text-amber-600">+120 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>統一布丁 (顆)</span>
+              <span class="font-bold text-amber-600">+110 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>晶球寒天 (推薦)</span>
+              <span class="font-bold text-emerald-600">+45 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>古早味嫩仙草</span>
+              <span class="font-bold text-emerald-600">+40 kcal</span>
+            </div>
+            <div class="p-2.5 bg-stone-50 rounded-xl border border-stone-200 flex justify-between">
+              <span>茉莉綠茶凍 (輕卡)</span>
+              <span class="font-bold text-emerald-600">+35 kcal</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- GAS API Endpoint Configuration Modal -->
+  <div id="apiConfigModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-stone-200 p-6 transform transition-all">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-stone-900 text-base flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4 text-tea-700"></i> Google Apps Script 後端設定
+        </h3>
+        <button onclick="closeApiConfigModal()" class="text-stone-400 hover:text-stone-600">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        此系統可無縫串接至您既有的 Google Apps Script Web App。送出的每一筆訂單將會透過 POST 請求即時寫入您的 Google 試算表收單工作表！
+      </p>
+
+      <div class="space-y-3 mb-5">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">GAS Web App URL (部署網址)</label>
+          <input 
+            type="url" 
+            id="gasApiUrlInput" 
+            placeholder="https://script.google.com/macros/s/AKfycb.../exec" 
+            class="w-full text-xs font-mono bg-stone-50 border border-stone-200 rounded-xl px-3 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-tea-500"
+          >
+          <span class="text-[10px] text-stone-400 mt-1 block">若保留空白，系統會進入 LocalStorage 獨立展示模式。</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="saveApiConfig()" class="flex-1 py-2.5 rounded-xl bg-tea-800 hover:bg-tea-900 text-white font-bold text-xs transition">
+          儲存設定
+        </button>
+        <button onclick="closeApiConfigModal()" class="py-2.5 px-4 rounded-xl border border-stone-200 text-stone-600 text-xs font-semibold hover:bg-stone-50">
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-tea-950 text-white px-4 py-3 rounded-2xl shadow-xl border border-white/10 flex items-center gap-2.5 text-xs font-medium transition-all transform translate-y-2">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400" id="toastIcon"></i>
+    <span id="toastMsg">成功加入點單！</span>
+  </div>
+
+  <!-- Mobile Floating Cart Bar -->
+  <div id="mobileCartBar" class="fixed bottom-4 inset-x-4 z-40 md:hidden hidden">
+    <button 
+      onclick="toggleCart()" 
+      class="w-full bg-tea-900 text-white p-3.5 rounded-2xl shadow-2xl flex items-center justify-between border border-white/20 active:scale-[0.99] transition"
+    >
+      <div class="flex items-center gap-3">
+        <div class="relative bg-white/20 p-2 rounded-xl">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-amber-300"></i>
+          <span id="mobileCartBadge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-stone-900 font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </div>
+        <div class="text-left">
+          <div class="text-[11px] text-tea-200">已選 <span id="mobileCartItems">0</span> 杯 ｜ <span id="mobileCartCalories">0</span> kcal</div>
+          <div class="font-serif font-black text-lg text-white" id="mobileCartTotal">$0</div>
+        </div>
+      </div>
+      <div class="bg-ambertea-500 text-stone-950 font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1">
+        <span>檢視訂單</span>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </div>
+    </button>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // -------------------------------------------------------------
+    // 1. BEVERAGE DATABASE WITH RICH NUTRITION & CALORIE INFORMATION
+    // -------------------------------------------------------------
+    const BEVERAGES = [
+      {
+        id: 'tea-01',
+        name: '松柏嶺四季春',
+        enName: 'Four Seasons Spring Oolong',
+        category: 'classic_tea',
+        categoryName: '經典原茶',
+        price: 40,
+        emoji: '🍃',
+        image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '輕卡控糖'],
+        caffeine: 'low',
+        caffeineMg: 45,
+        teaOrigin: '台灣南投名間鄉松柏嶺',
+        description: '嚴選南投四季春冬片茶，茶湯澄澈碧綠，入喉帶有淡雅玉蘭花芬芳，喉韻生津回甘。',
+        tastingNotes: ['白玉蘭花香', '爽口生津', '清幽甘醇'],
+        baseCalories: { L: 160, M: 120, Hot: 135 },
+        baseSugar: { L: 32, M: 24, Hot: 28 },
+      },
+      {
+        id: 'tea-02',
+        name: '日月潭紅玉紅茶 (台茶18號)',
+        enName: 'Sun Moon Lake Ruby Black Tea',
+        category: 'classic_tea',
+        categoryName: '經典原茶',
+        price: 50,
+        emoji: '🍂',
+        image: 'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '台灣之光'],
+        caffeine: 'medium',
+        caffeineMg: 120,
+        teaOrigin: '台灣南投日月潭魚池鄉',
+        description: '世界頂級台灣特色紅茶，茶湯明豔如紅寶石，天然蘊含肉桂與淡淡薄荷幽香，層次飽滿。',
+        tastingNotes: ['天然肉桂香', '薄荷涼感', '果香濃郁'],
+        baseCalories: { L: 160, M: 120, Hot: 140 },
+        baseSugar: { L: 32, M: 24, Hot: 28 },
+      },
+      {
+        id: 'tea-03',
+        name: '阿里山高山金萱茶',
+        enName: 'Alishan Jin Xuan Oolong',
+        category: 'classic_tea',
+        categoryName: '經典原茶',
+        price: 50,
+        emoji: '🌱',
+        image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80',
+        tags: ['招牌手摘', '輕卡控糖'],
+        caffeine: 'low',
+        caffeineMg: 55,
+        teaOrigin: '台灣嘉義阿里山茶區 (標高1400M)',
+        description: '生長於雲霧繚繞高山，茶湯蜜黃柔滑，獨特迷人奶糖香氣與淡雅花香交織，溫潤舒暢。',
+        tastingNotes: ['天然奶糖香', '花果甘甜', '高山氣韻'],
+        baseCalories: { L: 160, M: 120, Hot: 135 },
+        baseSugar: { L: 32, M: 24, Hot: 28 },
+      },
+      {
+        id: 'tea-04',
+        name: '炭焙極上鐵觀音',
+        enName: 'Charcoal Roasted Tieguanyin',
+        category: 'classic_tea',
+        categoryName: '經典原茶',
+        price: 45,
+        emoji: '🪵',
+        image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=600&q=80',
+        tags: ['濃茶推薦'],
+        caffeine: 'high',
+        caffeineMg: 210,
+        teaOrigin: '台灣新北木柵茶區',
+        description: '遵循傳統古法龍眼木慢火覆焙，帶有醇厚焙火香與果酸微韻，茶性沉穩厚實。',
+        tastingNotes: ['龍眼木炭香', '熟果微酸', '極深焙回甘'],
+        baseCalories: { L: 160, M: 120, Hot: 140 },
+        baseSugar: { L: 32, M: 24, Hot: 28 },
+      },
+      {
+        id: 'milk-01',
+        name: '手炒黑糖珍珠鮮奶',
+        enName: 'Brown Sugar Pearl Fresh Milk',
+        category: 'milk_tea',
+        categoryName: '醇厚鮮奶',
+        price: 75,
+        emoji: '🧋',
+        image: 'https://images.unsplash.com/photo-1558857563-b37cf05d8a58?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '無咖啡因'],
+        caffeine: 'none',
+        caffeineMg: 0,
+        teaOrigin: '台灣純鮮乳 (無茶葉，無咖啡因)',
+        description: '每日新鮮慢熬純黑糖珍珠，淋入 100% 國產特等鮮乳，黑糖紋路如琥珀般美麗，香甜濃醇。',
+        tastingNotes: ['濃郁黑糖香', 'Q彈珍珠', '絲滑乳香'],
+        baseCalories: { L: 420, M: 340, Hot: 360 },
+        baseSugar: { L: 48, M: 38, Hot: 42 },
+      },
+      {
+        id: 'milk-02',
+        name: '紅玉莊園厚鮮奶茶',
+        enName: 'Ruby Royal Milk Tea',
+        category: 'milk_tea',
+        categoryName: '醇厚鮮奶',
+        price: 70,
+        emoji: '🥛',
+        image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '奶茶控必喝'],
+        caffeine: 'medium',
+        caffeineMg: 110,
+        teaOrigin: '台灣日月潭魚池鄉 ✕ 國產特A級鮮乳',
+        description: '以濃萃紅玉紅茶為基底，交融黃金比例特級小農鮮乳，茶感鮮明不被奶香掩蓋，完美平衡。',
+        tastingNotes: ['紅玉茶香', '柔滑乳脂', '尾韻回甘'],
+        baseCalories: { L: 280, M: 210, Hot: 230 },
+        baseSugar: { L: 36, M: 28, Hot: 30 },
+      },
+      {
+        id: 'milk-03',
+        name: '小山園宇治抹茶拿鐵',
+        enName: 'Uji Matcha Latte',
+        category: 'milk_tea',
+        categoryName: '醇厚鮮奶',
+        price: 85,
+        emoji: '🍵',
+        image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80',
+        tags: ['京都直送'],
+        caffeine: 'medium',
+        caffeineMg: 95,
+        teaOrigin: '日本京都宇治小山園',
+        description: '選用日本宇治小山園一番茶研磨抹茶粉，手工刷茶後注入溫潤鮮奶，抹茶特有的苦韻與奶甜完美相融。',
+        tastingNotes: ['日式海苔香', '濃郁茶甘', '絲緞奶香'],
+        baseCalories: { L: 260, M: 190, Hot: 210 },
+        baseSugar: { L: 30, M: 22, Hot: 24 },
+      },
+      {
+        id: 'milk-04',
+        name: '大甲芋頭雙重鮮奶',
+        enName: 'Dajia Taro Pure Fresh Milk',
+        category: 'milk_tea',
+        categoryName: '醇厚鮮奶',
+        price: 80,
+        emoji: '🍠',
+        image: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=600&q=80',
+        tags: ['無咖啡因', '限量手工'],
+        caffeine: 'none',
+        caffeineMg: 0,
+        teaOrigin: '台中大甲檳榔心芋 (無茶葉)',
+        description: '每日蒸煮台中大甲新鮮芋頭，一半搗成綿密芋泥、一半保留飽滿芋頭顆粒，口感層次極豐富。',
+        tastingNotes: ['天然芋泥香', '綿密顆粒', '無添加香精'],
+        baseCalories: { L: 380, M: 290, Hot: 310 },
+        baseSugar: { L: 40, M: 32, Hot: 35 },
+      },
+      {
+        id: 'cheese-01',
+        name: '芝士厚奶蓋四季春',
+        enName: 'Cheese Foam Four Seasons Oolong',
+        category: 'cheese_foam',
+        categoryName: '芝士奶蓋',
+        price: 65,
+        emoji: '🧀',
+        image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '鹹甜層次'],
+        caffeine: 'low',
+        caffeineMg: 50,
+        teaOrigin: '台灣南投松柏嶺 ✕ 紐西蘭安佳乳酪',
+        description: '以紐西蘭芝士乳酪與喜馬拉雅玫瑰粉鹽打發的 3cm 厚奶蓋，搭配清新四季春，先鹹甜後回甘。',
+        tastingNotes: ['玫瑰鹽芝士', '濃郁奶香', '清爽茶解膩'],
+        baseCalories: { L: 310, M: 240, Hot: 260 },
+        baseSugar: { L: 32, M: 24, Hot: 28 },
+      },
+      {
+        id: 'cheese-02',
+        name: '雲頂白桃烏龍奶蓋',
+        enName: 'White Peach Oolong with Cheese Cap',
+        category: 'cheese_foam',
+        categoryName: '芝士奶蓋',
+        price: 70,
+        emoji: '🍑',
+        image: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80',
+        tags: ['果香奶蓋'],
+        caffeine: 'low',
+        caffeineMg: 60,
+        teaOrigin: '高山烏龍窨製日本白桃',
+        description: '高山烏龍原茶經日本白桃果乾低溫窨香，頂層鋪滿海鹽芝士奶蓋，粉嫩桃香與鹹甜奶香交錯。',
+        tastingNotes: ['白桃甜香', '烏龍焙香', '綿密雲頂'],
+        baseCalories: { L: 320, M: 250, Hot: 270 },
+        baseSugar: { L: 34, M: 26, Hot: 30 },
+      },
+      {
+        id: 'fruit-01',
+        name: '滿杯香橙鮮果冰茶',
+        enName: 'Fresh Orange Iced Green Tea',
+        category: 'fruit_tea',
+        categoryName: '鮮採果茶',
+        price: 70,
+        emoji: '🍊',
+        image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
+        tags: ['人氣推薦', '豐富維他命C'],
+        caffeine: 'low',
+        caffeineMg: 40,
+        teaOrigin: '台灣茉莉綠茶 ✕ 古坑鮮榨柳丁',
+        description: '現榨新鮮柳橙汁與香橙果肉片，加入茉莉毛峰綠茶，酸甜適口，果肉滿滿，夏日消暑聖品。',
+        tastingNotes: ['鮮榨橙香', '茉莉綠茶香', '果肉爆汁'],
+        baseCalories: { L: 210, M: 160, Hot: 175 },
+        baseSugar: { L: 42, M: 32, Hot: 36 },
+      },
+      {
+        id: 'fruit-02',
+        name: '白玉甘蔗翡翠青茶',
+        enName: 'Sugar Cane Jade Green Tea',
+        category: 'fruit_tea',
+        categoryName: '鮮採果茶',
+        price: 65,
+        emoji: '🎋',
+        image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80',
+        tags: ['天然甜感', '無額外加糖推薦'],
+        caffeine: 'low',
+        caffeineMg: 35,
+        teaOrigin: '南投名間青茶 ✕ 埔里紅甘蔗原汁',
+        description: '100% 埔里白玉甘蔗原汁搭配高山青茶，天然蔗甜清涼解渴，建議選擇「無糖」即享最佳天然甘甜！',
+        tastingNotes: ['純粹蔗甜', '青茶微香', '生津止渴'],
+        baseCalories: { L: 190, M: 145, Hot: 160 },
+        baseSugar: { L: 38, M: 29, Hot: 32 },
+      },
+      {
+        id: 'fruit-03',
+        name: '熱帶百香雙Q翡翠綠',
+        enName: 'Passion Fruit Dual Jelly Green Tea',
+        category: 'fruit_tea',
+        categoryName: '鮮採果茶',
+        price: 65,
+        emoji: '🥭',
+        image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=600&q=80',
+        tags: ['嚼感必點', '人氣雙Q'],
+        caffeine: 'low',
+        caffeineMg: 45,
+        teaOrigin: '埔里百香果 ✕ 台灣茉莉綠茶',
+        description: '新鮮百香果原汁酸香濃郁，內含蜜漬黑糖珍珠與椰果雙重口感，嚼感十足令人一口接一口。',
+        tastingNotes: ['熱帶百香果酸', '椰果清甜', '黑糖珍珠嚼感'],
+        baseCalories: { L: 330, M: 250, Hot: 270 },
+        baseSugar: { L: 46, M: 35, Hot: 38 },
+      },
+      {
+        id: 'special-01',
+        name: '古法柴燒黑糖桂圓紅棗茶',
+        enName: 'Longan Jujube Brown Sugar Tea',
+        category: 'special',
+        categoryName: '暖冬特調',
+        price: 60,
+        emoji: '🍯',
+        image: 'https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?auto=format&fit=crop&w=600&q=80',
+        tags: ['無咖啡因', '暖心養生'],
+        caffeine: 'none',
+        caffeineMg: 0,
+        teaOrigin: '台南東山柴燒龍眼乾 (無茶葉)',
+        description: '台南東山古法柴燒桂圓與紅棗慢火文燉，加入手工手炒黑糖，溫潤順口，暖胃益氣，冬日首選。',
+        tastingNotes: ['柴燒煙燻香', '紅棗甘甜', '黑糖溫潤'],
+        baseCalories: { L: 230, M: 170, Hot: 190 },
+        baseSugar: { L: 42, M: 32, Hot: 36 },
+      },
+      {
+        id: 'special-02',
+        name: '莊園生椰冰美式咖啡',
+        enName: 'Coconut Water Americano',
+        category: 'special',
+        categoryName: '咖啡特調',
+        price: 75,
+        emoji: '🥥',
+        image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
+        tags: ['輕卡控糖', '提神首選'],
+        caffeine: 'high',
+        caffeineMg: 220,
+        teaOrigin: '哥倫比亞中深焙莊園豆 ✕ 泰國香椰水',
+        description: '選用 100% 泰國進口清甜香椰子水，撞入莊園級深焙濃縮咖啡，清爽熱帶果香瞬間提神醒腦。',
+        tastingNotes: ['堅果可可調', '椰水清甜', '零脂肪低負擔'],
+        baseCalories: { L: 85, M: 65, Hot: 75 },
+        baseSugar: { L: 14, M: 10, Hot: 12 },
+      }
+    ];
+
+    // Category Metadata
+    const CATEGORIES = [
+      { id: 'all', name: '全部品項', icon: 'sparkles' },
+      { id: 'classic_tea', name: '經典原茶', icon: 'leaf' },
+      { id: 'milk_tea', name: '醇厚鮮奶', icon: 'milk' },
+      { id: 'cheese_foam', name: '芝士奶蓋', icon: 'cloud' },
+      { id: 'fruit_tea', name: '鮮採果茶', icon: 'citrus' },
+      { id: 'special', name: '特調/暖冬', icon: 'coffee' }
+    ];
+
+    // Sugar Options
+    const SWEETNESS_OPTIONS = [
+      { id: 'regular', name: '正常糖 (100%)', mult: 1.0, calDiff: 160, sugarDiff: 32 },
+      { id: 'less', name: '少糖 (70%)', mult: 0.7, calDiff: 112, sugarDiff: 22 },
+      { id: 'half', name: '半糖 (50%)', mult: 0.5, calDiff: 80, sugarDiff: 16 },
+      { id: 'micro', name: '微糖 (30%)', mult: 0.3, calDiff: 48, sugarDiff: 10, isRecommend: true },
+      { id: 'one', name: '一分糖 (10%)', mult: 0.1, calDiff: 16, sugarDiff: 3 },
+      { id: 'none', name: '無糖 (0%)', mult: 0.0, calDiff: 0, sugarDiff: 0 }
+    ];
+
+    // Ice Options
+    const ICE_OPTIONS = [
+      { id: 'regular_ice', name: '正常冰 (100%)' },
+      { id: 'less_ice', name: '少冰 (70%)' },
+      { id: 'micro_ice', name: '微冰 (30%)', isRecommend: true },
+      { id: 'no_ice', name: '去冰 (小碎冰)' },
+      { id: 'completely_no_ice', name: '完全去冰 (常溫)' },
+      { id: 'hot', name: '溫熱飲 (限定)' }
+    ];
+
+    // Toppings Options
+    const TOPPINGS_OPTIONS = [
+      { id: 'boba', name: '蜜漬黑糖珍珠', price: 10, calories: 180 },
+      { id: 'kanten', name: '晶球寒天 (輕卡)', price: 10, calories: 45, isLight: true },
+      { id: 'tea_jelly', name: '茉莉綠茶凍', price: 10, calories: 35, isLight: true },
+      { id: 'grass_jelly', name: '古早味嫩仙草', price: 10, calories: 40, isLight: true },
+      { id: 'cheese_cap', name: '海鹽芝士奶蓋', price: 20, calories: 150 },
+      { id: 'taro_ball', name: '雙色小芋圓', price: 15, calories: 120 },
+      { id: 'pudding', name: '統一布丁 (顆)', price: 15, calories: 110 }
+    ];
+
+    // -------------------------------------------------------------
+    // 2. APPLICATION STATE
+    // -------------------------------------------------------------
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let quickFilter = null; // 'recommend', 'low_cal', 'decaf'
+    let cart = [];
+
+    // Current Customizing Item State
+    let currentDrink = null;
+    let selectedSize = 'L';
+    let selectedSweetness = 'micro';
+    let selectedIce = 'micro_ice';
+    let selectedToppings = [];
+    let currentQuantity = 1;
+
+    // Google Apps Script API URL config
+    const GAS_URL_KEY = 'crafted_tea_gas_api_url';
+    let gasApiUrl = localStorage.getItem(GAS_URL_KEY) || '';
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCartFromStorage();
+      renderCategories();
+      renderDrinks();
+      initCustomizationContainers();
+      updateCartBadge();
+      updateGasStatusUI();
+      lucide.createIcons();
+    });
+
+    // -------------------------------------------------------------
+    // 3. RENDERING ENGINE
+    // -------------------------------------------------------------
+    function renderCategories() {
+      const container = document.getElementById('categoryContainer');
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = currentCategory === cat.id;
+        return `
+          <button 
+            onclick="setCategory('${cat.id}')" 
+            class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition shrink-0 flex items-center gap-1.5 ${
+              isActive 
+                ? 'bg-tea-800 text-white shadow-md shadow-tea-900/10' 
+                : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
+            }"
+          >
+            <i data-lucide="${cat.icon}" class="w-4 h-4"></i>
+            <span>${cat.name}</span>
+          </button>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function renderDrinks() {
+      const container = document.getElementById('drinksGrid');
+      const emptyState = document.getElementById('emptyState');
+      
+      // Filter logic
+      let list = BEVERAGES.filter(item => {
+        // Category filter
+        if (currentCategory !== 'all' && item.category !== currentCategory) return false;
+        
+        // Search query filter
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.toLowerCase();
+          const matchName = item.name.toLowerCase().includes(q);
+          const matchEn = item.enName.toLowerCase().includes(q);
+          const matchDesc = item.description.toLowerCase().includes(q);
+          const matchOrigin = item.teaOrigin.toLowerCase().includes(q);
+          const matchTags = item.tags.some(t => t.toLowerCase().includes(q));
+          if (!matchName && !matchEn && !matchDesc && !matchOrigin && !matchTags) return false;
+        }
+
+        // Quick filter
+        if (quickFilter === 'recommend') {
+          if (!item.tags.includes('人氣推薦')) return false;
+        } else if (quickFilter === 'low_cal') {
+          if (item.baseCalories.M > 160) return false;
+        } else if (quickFilter === 'decaf') {
+          if (item.caffeine !== 'none') return false;
+        }
+
+        return true;
+      });
+
+      // Update Count
+      document.getElementById('drinkCountBadge').innerText = `${list.length} 款茶飲`;
+      const catMeta = CATEGORIES.find(c => c.id === currentCategory);
+      document.getElementById('currentCategoryTitle').innerText = catMeta ? catMeta.name : '精選品項';
+
+      if (list.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      container.innerHTML = list.map(item => {
+        // Caffeine badge color
+        let caffeineBadge = '';
+        if (item.caffeine === 'none') {
+          caffeineBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">無咖啡因</span>`;
+        } else if (item.caffeine === 'low') {
+          caffeineBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 綠燈 (${item.caffeineMg}mg)</span>`;
+        } else if (item.caffeine === 'medium') {
+          caffeineBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 黃燈 (${item.caffeineMg}mg)</span>`;
+        } else {
+          caffeineBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> 紅燈 (${item.caffeineMg}mg)</span>`;
+        }
+
+        return `
+          <div class="bg-white rounded-3xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
+            
+            <!-- Card Image -->
+            <div class="relative h-48 sm:h-52 overflow-hidden bg-stone-100">
+              <img 
+                src="${item.image}" 
+                alt="${item.name}" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80';"
+              >
+              
+              <!-- Top Left Tag -->
+              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                ${item.tags.map(t => `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-tea-900/85 backdrop-blur-md text-amber-200 border border-white/20 shadow-sm">${t}</span>`).join('')}
+              </div>
+
+              <!-- Top Right Caffeine Indicator -->
+              <div class="absolute top-3 right-3 shadow-sm">
+                ${caffeineBadge}
+              </div>
+
+              <!-- Base Calorie Badge (Bottom Right of Image) -->
+              <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl bg-white/90 backdrop-blur-md text-stone-800 text-[11px] font-bold shadow-sm flex items-center gap-1">
+                <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
+                <span>${item.baseCalories.M} ~ ${item.baseCalories.L} kcal</span>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="text-[11px] text-tea-700 font-medium tracking-wide uppercase mb-1">${item.categoryName} ｜ ${item.teaOrigin.split(' ')[0]}</div>
+                <h3 class="text-lg font-serif font-bold text-stone-900 group-hover:text-tea-800 transition">${item.name}</h3>
+                <p class="text-xs text-stone-400 font-sans tracking-wide mt-0.5">${item.enName}</p>
+                <p class="text-xs text-stone-600 line-clamp-2 mt-2.5 leading-relaxed">${item.description}</p>
+                
+                <!-- Tasting notes chips -->
+                <div class="flex flex-wrap gap-1.5 mt-3">
+                  ${item.tastingNotes.map(n => `<span class="text-[10px] px-2 py-0.5 rounded-lg bg-stone-100 text-stone-600">#${n}</span>`).join('')}
+                </div>
+              </div>
+
+              <!-- Card Bottom Actions -->
+              <div class="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-stone-400 block">單杯售價</span>
+                  <div class="text-xl font-bold font-serif text-tea-900">$${item.price} <span class="text-xs font-normal text-stone-400">起</span></div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <!-- Info / Story button -->
+                  <button 
+                    onclick="openProductDetailModal('${item.id}')" 
+                    class="p-2.5 rounded-xl border border-stone-200 text-stone-600 hover:text-tea-800 hover:border-tea-600 transition" 
+                    title="產品詳細故事與營養表"
+                  >
+                    <i data-lucide="info" class="w-4 h-4"></i>
+                  </button>
+
+                  <!-- Order / Customize button -->
+                  <button 
+                    onclick="openOrderModal('${item.id}')" 
+                    class="px-4 py-2.5 rounded-xl bg-tea-800 hover:bg-tea-900 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5"
+                  >
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span>點單</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function initCustomizationContainers() {
+      // Sweetness
+      const sweetContainer = document.getElementById('sweetnessOptionsContainer');
+      sweetContainer.innerHTML = SWEETNESS_OPTIONS.map(s => `
+        <button 
+          type="button" 
+          onclick="selectSweetness('${s.id}')" 
+          data-sweet="${s.id}" 
+          class="sweet-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center ${s.id === selectedSweetness ? 'border-tea-700 bg-tea-50 text-tea-900 font-bold' : 'border-stone-200 hover:border-tea-200 text-stone-700'}"
+        >
+          <span class="text-xs font-medium">${s.name.split(' ')[0]}</span>
+          <span class="text-[10px] text-stone-400">${s.name.split(' ')[1]}</span>
+        </button>
+      `).join('');
+
+      // Ice
+      const iceContainer = document.getElementById('iceOptionsContainer');
+      iceContainer.innerHTML = ICE_OPTIONS.map(i => `
+        <button 
+          type="button" 
+          onclick="selectIce('${i.id}')" 
+          data-ice="${i.id}" 
+          class="ice-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center ${i.id === selectedIce ? 'border-tea-700 bg-tea-50 text-tea-900 font-bold' : 'border-stone-200 hover:border-tea-200 text-stone-700'}"
+        >
+          <span class="text-xs font-medium">${i.name.split(' ')[0]}</span>
+          <span class="text-[10px] text-stone-400">${i.name.split(' ')[1] || ''}</span>
+        </button>
+      `).join('');
+
+      // Toppings
+      const toppingsContainer = document.getElementById('toppingsContainer');
+      toppingsContainer.innerHTML = TOPPINGS_OPTIONS.map(top => `
+        <label class="flex items-center justify-between p-2.5 rounded-xl border-2 border-stone-200 hover:border-tea-300 transition cursor-pointer topping-item" data-topping="${top.id}">
+          <div class="flex items-center gap-2">
+            <input 
+              type="checkbox" 
+              value="${top.id}" 
+              class="w-4 h-4 text-tea-600 rounded focus:ring-tea-500 accent-tea-700" 
+              onchange="toggleTopping('${top.id}', this.checked)"
+            >
+            <div>
+              <span class="text-xs font-bold text-stone-800">${top.name}</span>
+              <span class="text-[10px] text-stone-400 block">+${top.calories} kcal</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-tea-800">+$${top.price}</span>
+        </label>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------
+    // 4. FILTERING & SEARCH INTERACTION
+    // -------------------------------------------------------------
+    function setCategory(catId) {
+      currentCategory = catId;
+      renderCategories();
+      renderDrinks();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (val.trim()) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderDrinks();
+    }
+
+    function clearSearch() {
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('mobileSearchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderDrinks();
+    }
+
+    function toggleQuickFilter(type) {
+      if (quickFilter === type) {
+        quickFilter = null;
+      } else {
+        quickFilter = type;
+      }
+      // Update UI buttons
+      ['recommend', 'low_cal', 'decaf'].forEach(t => {
+        const btn = document.getElementById(`filter-${t}`);
+        if (quickFilter === t) {
+          btn.classList.add('bg-tea-800', 'text-white', 'border-tea-800');
+          btn.classList.remove('text-stone-600', 'border-stone-200');
+        } else {
+          btn.classList.remove('bg-tea-800', 'text-white', 'border-tea-800');
+          btn.classList.add('text-stone-600', 'border-stone-200');
+        }
+      });
+      renderDrinks();
+    }
+
+    function resetAllFilters() {
+      currentCategory = 'all';
+      searchQuery = '';
+      quickFilter = null;
+      document.getElementById('searchInput').value = '';
+      document.getElementById('mobileSearchInput').value = '';
+      ['recommend', 'low_cal', 'decaf'].forEach(t => {
+        const btn = document.getElementById(`filter-${t}`);
+        btn.classList.remove('bg-tea-800', 'text-white', 'border-tea-800');
+        btn.classList.add('text-stone-600', 'border-stone-200');
+      });
+      renderCategories();
+      renderDrinks();
+    }
+
+    // -------------------------------------------------------------
+    // 5. PRODUCT DETAILS & NUTRITION MODAL
+    // -------------------------------------------------------------
+    function openProductDetailModal(drinkId) {
+      const drink = BEVERAGES.find(b => b.id === drinkId);
+      if (!drink) return;
+
+      document.getElementById('modalDrinkName').innerText = drink.name;
+      document.getElementById('modalDrinkEnName').innerText = drink.enName;
+      document.getElementById('modalCategoryTag').innerText = drink.categoryName;
+      document.getElementById('modalDrinkStory').innerText = drink.description;
+      document.getElementById('modalTeaSource').innerText = drink.teaOrigin;
+      document.getElementById('modalPriceDisplay').innerText = `$${drink.price} 起`;
+
+      // Caffeine Tag
+      const caffeineTag = document.getElementById('modalCaffeineTag');
+      if (drink.caffeine === 'none') {
+        caffeineTag.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full bg-indigo-500/80 text-white';
+        caffeineTag.innerText = '無咖啡因 (0mg)';
+      } else if (drink.caffeine === 'low') {
+        caffeineTag.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/80 text-white';
+        caffeineTag.innerText = `綠燈 (${drink.caffeineMg}mg)`;
+      } else if (drink.caffeine === 'medium') {
+        caffeineTag.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full bg-amber-500/80 text-white';
+        caffeineTag.innerText = `黃燈 (${drink.caffeineMg}mg)`;
+      } else {
+        caffeineTag.className = 'text-[11px] font-medium px-2 py-0.5 rounded-full bg-rose-500/80 text-white';
+        caffeineTag.innerText = `紅燈 (${drink.caffeineMg}mg)`;
+      }
+
+      // Tasting notes
+      document.getElementById('modalTastingNotes').innerHTML = drink.tastingNotes.map(n => `
+        <span class="text-xs px-2.5 py-1 rounded-xl bg-tea-50 text-tea-900 border border-tea-100 font-medium">✨ ${n}</span>
+      `).join('');
+
+      // Calories
+      document.getElementById('modalCalL').innerHTML = `${drink.baseCalories.L} <span class="text-xs font-normal">kcal</span>`;
+      document.getElementById('modalSugarL').innerText = `總糖量: ${drink.baseSugar.L}g`;
+      document.getElementById('modalCalM').innerHTML = `${drink.baseCalories.M} <span class="text-xs font-normal">kcal</span>`;
+      document.getElementById('modalSugarM').innerText = `總糖量: ${drink.baseSugar.M}g`;
+      document.getElementById('modalCalHot').innerHTML = `${drink.baseCalories.Hot} <span class="text-xs font-normal">kcal</span>`;
+      document.getElementById('modalSugarHot').innerText = `總糖量: ${drink.baseSugar.Hot}g`;
+
+      // Order Now button in modal
+      document.getElementById('modalOrderNowBtn').onclick = () => {
+        closeProductDetailModal();
+        openOrderModal(drink.id);
+      };
+
+      document.getElementById('productDetailModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeProductDetailModal() {
+      document.getElementById('productDetailModal').classList.add('hidden');
+    }
+
+    // -------------------------------------------------------------
+    // 6. CUSTOMIZATION & LIVE CALORIE CALCULATION
+    // -------------------------------------------------------------
+    function openOrderModal(drinkId) {
+      const drink = BEVERAGES.find(b => b.id === drinkId);
+      if (!drink) return;
+
+      currentDrink = drink;
+      selectedSize = 'L';
+      selectedSweetness = 'micro';
+      selectedIce = 'micro_ice';
+      selectedToppings = [];
+      currentQuantity = 1;
+      document.getElementById('drinkCustomNote').value = '';
+      document.getElementById('ecoCupCheckbox').checked = false;
+
+      // Header info
+      document.getElementById('orderModalDrinkName').innerText = drink.name;
+      document.getElementById('orderModalCategory').innerText = `${drink.categoryName} ｜ ${drink.teaOrigin.split(' ')[0]}`;
+      document.getElementById('orderModalBasePrice').innerText = `$${drink.price}`;
+      document.getElementById('orderModalImage').innerHTML = `<img src="${drink.image}" class="w-full h-full object-cover">`;
+
+      // Reset buttons
+      updateSizeButtonsUI();
+      updateSweetnessButtonsUI();
+      updateIceButtonsUI();
+      resetToppingsCheckboxes();
+
+      updateLiveCalculation();
+
+      document.getElementById('orderModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.add('hidden');
+    }
+
+    function selectSize(size) {
+      selectedSize = size;
+      updateSizeButtonsUI();
+      updateLiveCalculation();
+    }
+
+    function updateSizeButtonsUI() {
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        if (btn.dataset.size === selectedSize) {
+          btn.className = 'size-btn py-2.5 px-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center border-tea-700 bg-tea-50 text-tea-900 font-bold';
+        } else {
+          btn.className = 'size-btn py-2.5 px-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center border-stone-200 hover:border-tea-300 text-stone-700';
+        }
+      });
+    }
+
+    function selectSweetness(sweetId) {
+      selectedSweetness = sweetId;
+      updateSweetnessButtonsUI();
+      updateLiveCalculation();
+    }
+
+    function updateSweetnessButtonsUI() {
+      document.querySelectorAll('.sweet-btn').forEach(btn => {
+        if (btn.dataset.sweet === selectedSweetness) {
+          btn.className = 'sweet-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center border-tea-700 bg-tea-50 text-tea-900 font-bold';
+        } else {
+          btn.className = 'sweet-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center border-stone-200 hover:border-tea-200 text-stone-700';
+        }
+      });
+    }
+
+    function selectIce(iceId) {
+      selectedIce = iceId;
+      updateIceButtonsUI();
+    }
+
+    function updateIceButtonsUI() {
+      document.querySelectorAll('.ice-btn').forEach(btn => {
+        if (btn.dataset.ice === selectedIce) {
+          btn.className = 'ice-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center border-tea-700 bg-tea-50 text-tea-900 font-bold';
+        } else {
+          btn.className = 'ice-btn p-2 rounded-xl border-2 text-center transition flex flex-col items-center justify-center border-stone-200 hover:border-tea-200 text-stone-700';
+        }
+      });
+    }
+
+    function toggleTopping(toppingId, isChecked) {
+      if (isChecked) {
+        if (!selectedToppings.includes(toppingId)) selectedToppings.push(toppingId);
+      } else {
+        selectedToppings = selectedToppings.filter(id => id !== toppingId);
+      }
+      updateToppingHighlight();
+      updateLiveCalculation();
+    }
+
+    function resetToppingsCheckboxes() {
+      document.querySelectorAll('#toppingsContainer input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+      });
+      updateToppingHighlight();
+    }
+
+    function updateToppingHighlight() {
+      document.querySelectorAll('.topping-item').forEach(item => {
+        const topId = item.dataset.topping;
+        if (selectedToppings.includes(topId)) {
+          item.classList.add('border-tea-600', 'bg-tea-50/50');
+          item.classList.remove('border-stone-200');
+        } else {
+          item.classList.remove('border-tea-600', 'bg-tea-50/50');
+          item.classList.add('border-stone-200');
+        }
+      });
+    }
+
+    function changeQuantity(delta) {
+      currentQuantity = Math.max(1, currentQuantity + delta);
+      document.getElementById('orderQuantityDisplay').innerText = currentQuantity;
+      updateLiveCalculation();
+    }
+
+    // DYNAMIC CALORIE & PRICE ENGINE
+    function updateLiveCalculation() {
+      if (!currentDrink) return;
+
+      // 1. Calculate Single Unit Price
+      let unitPrice = currentDrink.price;
+      if (selectedSize === 'M') unitPrice -= 5;
+      
+      // Add toppings price
+      selectedToppings.forEach(topId => {
+        const top = TOPPINGS_OPTIONS.find(t => t.id === topId);
+        if (top) unitPrice += top.price;
+      });
+
+      // Eco cup discount
+      const hasEco = document.getElementById('ecoCupCheckbox').checked;
+      let singleNetPrice = unitPrice;
+      if (hasEco) singleNetPrice = Math.max(0, singleNetPrice - 5);
+
+      const totalPrice = singleNetPrice * currentQuantity;
+      document.getElementById('liveTotalPriceDisplay').innerText = `$${totalPrice}`;
+
+      // 2. Calculate Live Dynamic Calories
+      const baseCal = currentDrink.baseCalories[selectedSize] || currentDrink.baseCalories.L;
+      const baseSugar = currentDrink.baseSugar[selectedSize] || currentDrink.baseSugar.L;
+      const sweetObj = SWEETNESS_OPTIONS.find(s => s.id === selectedSweetness) || SWEETNESS_OPTIONS[3];
+
+      // Drink calories adjust based on sweetness multiplier
+      let estimatedDrinkCal = Math.round(baseCal * (0.35 + sweetObj.mult * 0.65));
+      if (currentDrink.category === 'classic_tea' && selectedSweetness === 'none') {
+        estimatedDrinkCal = 4; // Almost zero calories for unsweetened tea
+      }
+
+      let estimatedSugar = Math.round(baseSugar * sweetObj.mult);
+
+      // Add Toppings Calories
+      let toppingsCal = 0;
+      selectedToppings.forEach(topId => {
+        const top = TOPPINGS_OPTIONS.find(t => t.id === topId);
+        if (top) toppingsCal += top.calories;
+      });
+
+      const totalItemCalories = estimatedDrinkCal + toppingsCal;
+      document.getElementById('liveCalorieDisplay').innerText = totalItemCalories;
+      document.getElementById('liveSugarDisplay').innerText = estimatedSugar;
+
+      // Caffeine Indicator
+      const caffeineTag = document.getElementById('liveCaffeineTag');
+      if (currentDrink.caffeine === 'none') {
+        caffeineTag.className = 'text-xs font-bold text-indigo-300';
+        caffeineTag.innerText = '● 無咖啡因';
+      } else if (currentDrink.caffeine === 'low') {
+        caffeineTag.className = 'text-xs font-bold text-emerald-300';
+        caffeineTag.innerText = `● 綠燈 (${currentDrink.caffeineMg}mg)`;
+      } else if (currentDrink.caffeine === 'medium') {
+        caffeineTag.className = 'text-xs font-bold text-amber-300';
+        caffeineTag.innerText = `● 黃燈 (${currentDrink.caffeineMg}mg)`;
+      } else {
+        caffeineTag.className = 'text-xs font-bold text-rose-300';
+        caffeineTag.innerText = `● 紅燈 (${currentDrink.caffeineMg}mg)`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 7. CART MANAGEMENT & LOCAL STORAGE
+    // -------------------------------------------------------------
+    function confirmAddToCart() {
+      if (!currentDrink) return;
+
+      const sweetObj = SWEETNESS_OPTIONS.find(s => s.id === selectedSweetness);
+      const iceObj = ICE_OPTIONS.find(i => i.id === selectedIce);
+      const toppingObjs = selectedToppings.map(id => TOPPINGS_OPTIONS.find(t => t.id === id));
+      const hasEco = document.getElementById('ecoCupCheckbox').checked;
+      const customNote = document.getElementById('drinkCustomNote').value.trim();
+
+      // Calculate unit price and calories
+      let unitPrice = currentDrink.price;
+      if (selectedSize === 'M') unitPrice -= 5;
+      toppingObjs.forEach(t => unitPrice += t.price);
+
+      const baseCal = currentDrink.baseCalories[selectedSize] || currentDrink.baseCalories.L;
+      let drinkCal = Math.round(baseCal * (0.35 + sweetObj.mult * 0.65));
+      if (currentDrink.category === 'classic_tea' && selectedSweetness === 'none') drinkCal = 4;
+      let toppingsCal = 0;
+      toppingObjs.forEach(t => toppingsCal += t.calories);
+      const singleItemCalories = drinkCal + toppingsCal;
+
+      const cartItem = {
+        cartItemId: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        drinkId: currentDrink.id,
+        name: currentDrink.name,
+        categoryName: currentDrink.categoryName,
+        size: selectedSize,
+        sizeName: selectedSize === 'L' ? '大杯 (L)' : (selectedSize === 'M' ? '中杯 (M)' : '熱飲 (Hot)'),
+        sweetness: sweetObj.name,
+        ice: iceObj.name,
+        toppings: toppingObjs.map(t => t.name),
+        hasEcoCup: hasEco,
+        customNote: customNote,
+        unitPrice: unitPrice,
+        singleCalories: singleItemCalories,
+        quantity: currentQuantity
+      };
+
+      cart.push(cartItem);
+      saveCartToStorage();
+      updateCartBadge();
+      closeOrderModal();
+      showToast(`已將 ${currentDrink.name} (${currentQuantity}杯) 加入點單！`);
+    }
+
+    function toggleCart() {
+      const drawer = document.getElementById('cartDrawer');
+      if (drawer.classList.contains('hidden')) {
+        renderCartItems();
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cartItemsContainer');
+      const emptyView = document.getElementById('emptyCartView');
+      const footer = document.getElementById('cartFooter');
+      const proceedBtn = document.getElementById('proceedCheckoutBtn');
+
+      if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyView.classList.remove('hidden');
+        footer.classList.add('opacity-50', 'pointer-events-none');
+        updateCartCalculations();
+        return;
+      }
+
+      emptyView.classList.add('hidden');
+      footer.classList.remove('opacity-50', 'pointer-events-none');
+
+      container.innerHTML = cart.map((item, index) => {
+        const itemSubtotal = item.unitPrice * item.quantity;
+        const ecoDiscount = item.hasEcoCup ? 5 * item.quantity : 0;
+        const itemTotalCal = item.singleCalories * item.quantity;
+
+        return `
+          <div class="pt-3 first:pt-0">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-stone-900 text-sm">${item.name}</span>
+                  <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-tea-100 text-tea-800">${item.sizeName}</span>
+                </div>
+
+                <!-- Customization Spec Tags -->
+                <div class="text-xs text-stone-500 mt-1 flex flex-wrap gap-1 items-center">
+                  <span class="text-stone-700 font-medium">${item.sweetness}</span>
+                  <span>/</span>
+                  <span class="text-stone-700 font-medium">${item.ice}</span>
+                  ${item.toppings.length ? `<span>/</span> <span class="text-amber-800 font-medium">${item.toppings.join('、')}</span>` : ''}
+                </div>
+
+                <!-- Eco Cup or Note -->
+                <div class="flex flex-wrap gap-2 text-[10px] mt-1.5">
+                  ${item.hasEcoCup ? `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">🌿 環保杯 (-$${ecoDiscount})</span>` : ''}
+                  ${item.customNote ? `<span class="text-stone-400 italic">備註: ${item.customNote}</span>` : ''}
+                  <span class="text-amber-700 font-medium">${itemTotalCal} kcal</span>
+                </div>
+              </div>
+
+              <!-- Price & Quantity -->
+              <div class="text-right shrink-0">
+                <div class="font-bold text-tea-900 text-base">$${itemSubtotal - ecoDiscount}</div>
+                <div class="flex items-center gap-1 mt-1 border border-stone-200 rounded-lg bg-stone-50 p-0.5">
+                  <button onclick="updateCartItemQty(${index}, -1)" class="w-6 h-6 flex items-center justify-center text-stone-500 hover:bg-white rounded">
+                    <i data-lucide="minus" class="w-3 h-3"></i>
+                  </button>
+                  <span class="w-6 text-center text-xs font-bold">${item.quantity}</span>
+                  <button onclick="updateCartItemQty(${index}, 1)" class="w-6 h-6 flex items-center justify-center text-stone-500 hover:bg-white rounded">
+                    <i data-lucide="plus" class="w-3 h-3"></i>
+                  </button>
+                </div>
+                <button onclick="removeCartItem(${index})" class="text-[11px] text-stone-400 hover:text-rose-600 mt-1 transition">
+                  刪除
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateCartCalculations();
+      lucide.createIcons();
+    }
+
+    function updateCartItemQty(index, delta) {
+      if (!cart[index]) return;
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      saveCartToStorage();
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      saveCartToStorage();
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function clearEntireCart() {
+      if (cart.length === 0) return;
+      if (confirm('確定要清空所有已選取的點單嗎？')) {
+        cart = [];
+        saveCartToStorage();
+        updateCartBadge();
+        renderCartItems();
+      }
+    }
+
+    function updateCartCalculations() {
+      let subtotal = 0;
+      let totalEcoDiscount = 0;
+      let totalCalories = 0;
+      let totalCount = 0;
+
+      cart.forEach(item => {
+        subtotal += item.unitPrice * item.quantity;
+        if (item.hasEcoCup) totalEcoDiscount += 5 * item.quantity;
+        totalCalories += item.singleCalories * item.quantity;
+        totalCount += item.quantity;
+      });
+
+      const grandTotal = Math.max(0, subtotal - totalEcoDiscount);
+
+      document.getElementById('cartSubtotalDisplay').innerText = `$${subtotal}`;
+      document.getElementById('cartEcoDiscountDisplay').innerText = `-$${totalEcoDiscount}`;
+      document.getElementById('cartTotalCaloriesDisplay').innerText = `${totalCalories} kcal`;
+      document.getElementById('cartGrandTotalDisplay').innerText = `$${grandTotal}`;
+      document.getElementById('cartTotalItemsBadge').innerText = `${totalCount} 杯`;
+
+      // Eco discount row visibility
+      const ecoRow = document.getElementById('cartEcoDiscountRow');
+      if (totalEcoDiscount > 0) ecoRow.classList.remove('hidden');
+      else ecoRow.classList.add('hidden');
+
+      // Update mobile floating cart
+      updateMobileCartBar(totalCount, grandTotal, totalCalories);
+    }
+
+    function updateCartBadge() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCountBadge').innerText = count;
+      document.getElementById('mobileCartBadge').innerText = count;
+      document.getElementById('mobileCartItems').innerText = count;
+      
+      const mobileBar = document.getElementById('mobileCartBar');
+      if (count > 0) mobileBar.classList.remove('hidden');
+      else mobileBar.classList.add('hidden');
+    }
+
+    function updateMobileCartBar(count, total, cal) {
+      document.getElementById('mobileCartItems').innerText = count;
+      document.getElementById('mobileCartTotal').innerText = `$${total}`;
+      document.getElementById('mobileCartCalories').innerText = cal;
+    }
+
+    function saveCartToStorage() {
+      localStorage.setItem('crafted_tea_cart', JSON.stringify(cart));
+    }
+
+    function loadCartFromStorage() {
+      const saved = localStorage.getItem('crafted_tea_cart');
+      if (saved) {
+        try {
+          cart = JSON.parse(saved);
+        } catch(e) {
+          cart = [];
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 8. OFFICE GROUP ORDER & LINE EXPORT TOOLS
+    // -------------------------------------------------------------
+    function openGroupOrderModal() {
+      if (cart.length === 0) {
+        showToast('購物車目前無飲品，請先挑選茶飲！');
+        return;
+      }
+      generateAggregatedGroupList();
+      document.getElementById('groupOrderModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeGroupOrderModal() {
+      document.getElementById('groupOrderModal').classList.add('hidden');
+    }
+
+    function generateAggregatedGroupList() {
+      // Aggregate by (name + size + sweetness + ice + toppings)
+      const aggMap = {};
+      let totalCups = 0;
+      let totalMoney = 0;
+      let totalCal = 0;
+
+      cart.forEach(item => {
+        const topStr = item.toppings.length ? `[${item.toppings.join('+')}]` : '';
+        const key = `${item.name} (${item.sizeName}) - ${item.sweetness} / ${item.ice} ${topStr}`.trim();
+        
+        if (!aggMap[key]) {
+          aggMap[key] = { count: 0, subtotal: 0, cal: 0 };
+        }
+        aggMap[key].count += item.quantity;
+        aggMap[key].subtotal += (item.unitPrice - (item.hasEcoCup ? 5 : 0)) * item.quantity;
+        aggMap[key].cal += item.singleCalories * item.quantity;
+
+        totalCups += item.quantity;
+        totalMoney += (item.unitPrice - (item.hasEcoCup ? 5 : 0)) * item.quantity;
+        totalCal += item.singleCalories * item.quantity;
+      });
+
+      let text = `【 萃韻茶作 Crafted Tea Studio ｜ 辦公室揪團點單彙總 】\n`;
+      text += `📅 統計時間：${new Date().toLocaleString('zh-TW')}\n`;
+      text += `--------------------------------------------------\n`;
+      
+      let i = 1;
+      for (const [spec, data] of Object.entries(aggMap)) {
+        text += `${i}. ${spec} ➔ x ${data.count} 杯 ($${data.subtotal})\n`;
+        i++;
+      }
+
+      text += `--------------------------------------------------\n`;
+      text += `📊 總計杯數：${totalCups} 杯\n`;
+      text += `💰 總計金額：$${totalMoney} 元\n`;
+      text += `🔥 預估全單熱量：${totalCal} kcal\n`;
+      text += `💡 提醒：若有自備環保杯現場請出示折抵。`;
+
+      document.getElementById('aggregatedOrderList').innerText = text;
+      return text;
+    }
+
+    function copyGroupAggregatedText() {
+      const text = generateAggregatedGroupList();
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製彙整清單！可直接提供店家快速點餐');
+      }).catch(() => {
+        showToast('請手動選取文字複製');
+      });
+    }
+
+    function copyLineOrderSummary() {
+      if (cart.length === 0) {
+        showToast('購物車內無品項！');
+        return;
+      }
+
+      let text = `🌿【萃韻茶作 點單明細】\n`;
+      let totalCups = 0;
+      let totalMoney = 0;
+
+      cart.forEach((item, idx) => {
+        const topStr = item.toppings.length ? `+${item.toppings.join('、')}` : '無加料';
+        const ecoStr = item.hasEcoCup ? ' [自備環保杯-$5]' : '';
+        const itemPrice = (item.unitPrice - (item.hasEcoCup ? 5 : 0)) * item.quantity;
+
+        text += `${idx + 1}. ${item.name} (${item.sizeName}) / ${item.sweetness} / ${item.ice} / ${topStr}${ecoStr} x ${item.quantity}杯 = $${itemPrice}\n`;
+        if (item.customNote) text += `   備註: ${item.customNote}\n`;
+
+        totalCups += item.quantity;
+        totalMoney += itemPrice;
+      });
+
+      text += `--------------------------\n`;
+      text += `總計：${totalCups} 杯 ｜ 總金額：$${totalMoney} 元\n`;
+      text += `請大家核對品項與金額，謝謝大家！☕`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('已複製 LINE 訂單明細，可直接貼入群組！');
+      }).catch(() => {
+        showToast('複製失敗，請手動複製');
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 9. CHECKOUT & GOOGLE APPS SCRIPT SYNC
+    // -------------------------------------------------------------
+    function openCheckoutModal() {
+      if (cart.length === 0) {
+        showToast('購物車內尚無飲品！');
+        return;
+      }
+      toggleCart(); // Close drawer
+
+      // Calculate total amount
+      let totalMoney = 0;
+      cart.forEach(item => {
+        totalMoney += (item.unitPrice - (item.hasEcoCup ? 5 : 0)) * item.quantity;
+      });
+      document.getElementById('modalCheckoutAmount').innerText = `$${totalMoney} 元`;
+
+      // Set default time to +30 mins
+      const now = new Date();
+      now.setMinutes(now.getMinutes() + 30);
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('custTime').value = `${hours}:${mins}`;
+
+      document.getElementById('checkoutModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function handleDeliveryTypeChange(type) {
+      const addressSec = document.getElementById('addressSection');
+      const addressLabel = document.getElementById('addressLabel');
+      const custAddress = document.getElementById('custAddress');
+
+      if (type === 'delivery') {
+        addressSec.classList.remove('hidden');
+        addressLabel.innerText = '外送詳細地址 *';
+        custAddress.placeholder = '例如：台北市信義區松智路 1 號 8 樓';
+        custAddress.required = true;
+      } else if (type === 'office') {
+        addressSec.classList.remove('hidden');
+        addressLabel.innerText = '公司部門與桌號/分機 *';
+        custAddress.placeholder = '例如：研發部 3F-A12 桌 (分機 2801)';
+        custAddress.required = true;
+      } else {
+        addressSec.classList.add('hidden');
+        custAddress.required = false;
+      }
+
+      // Update styles on radio buttons
+      document.querySelectorAll('.order-type-btn').forEach(btn => {
+        const input = btn.querySelector('input');
+        if (input.value === type) {
+          btn.className = 'border-2 border-tea-700 bg-tea-50/60 rounded-xl p-2.5 text-center cursor-pointer order-type-btn flex flex-col items-center';
+        } else {
+          btn.className = 'border-2 border-stone-200 hover:border-tea-300 rounded-xl p-2.5 text-center cursor-pointer order-type-btn flex flex-col items-center';
+        }
+      });
+    }
+
+    async function submitOrder(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitOrderBtn');
+      const submitText = document.getElementById('submitOrderBtnText');
+      submitBtn.disabled = true;
+      submitText.innerText = '正在處理並提交訂單...';
+
+      // Gather form data
+      const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
+      const custName = document.getElementById('custName').value.trim();
+      const custPhone = document.getElementById('custPhone').value.trim();
+      const custAddress = document.getElementById('custAddress').value.trim();
+      const custTime = document.getElementById('custTime').value;
+      const custPayment = document.getElementById('custPayment').value;
+      const custInvoice = document.getElementById('custInvoice').value.trim();
+      const custOrderNotes = document.getElementById('custOrderNotes').value.trim();
+
+      // Totals
+      let totalCups = 0;
+      let totalMoney = 0;
+      let totalCalories = 0;
+
+      const itemsDetail = cart.map(item => {
+        const itemPrice = (item.unitPrice - (item.hasEcoCup ? 5 : 0)) * item.quantity;
+        totalCups += item.quantity;
+        totalMoney += itemPrice;
+        totalCalories += item.singleCalories * item.quantity;
+
+        return {
+          name: item.name,
+          size: item.sizeName,
+          sweetness: item.sweetness,
+          ice: item.ice,
+          toppings: item.toppings.join(', '),
+          hasEcoCup: item.hasEcoCup,
+          quantity: item.quantity,
+          singleCalories: item.singleCalories,
+          subtotal: itemPrice,
+          note: item.customNote || ''
+        };
+      });
+
+      const orderId = 'ORD-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + Math.floor(100 + Math.random() * 900);
+
+      const orderPayload = {
+        orderId: orderId,
+        timestamp: new Date().toISOString(),
+        customer: {
+          name: custName,
+          phone: custPhone,
+          deliveryType: deliveryType,
+          address: custAddress,
+          time: custTime,
+          payment: custPayment,
+          invoice: custInvoice,
+          notes: custOrderNotes
+        },
+        summary: {
+          totalCups: totalCups,
+          totalAmount: totalMoney,
+          totalCalories: totalCalories
+        },
+        items: itemsDetail
+      };
+
+      // Attempt sync to Google Apps Script Web App if configured
+      if (gasApiUrl && gasApiUrl.startsWith('http')) {
+        try {
+          await fetch(gasApiUrl, {
+            method: 'POST',
+            mode: 'no-cors', // Google Apps Script Web App standard mode
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderPayload)
+          });
+          console.log('Order successfully sent to Google Apps Script!');
+        } catch (err) {
+          console.warn('GAS POST failed, saving locally:', err);
+        }
+      }
+
+      // Save order to Local History
+      const orderHistory = JSON.parse(localStorage.getItem('crafted_tea_order_history') || '[]');
+      orderHistory.unshift(orderPayload);
+      localStorage.setItem('crafted_tea_order_history', JSON.stringify(orderHistory));
+
+      // Reset cart
+      cart = [];
+      saveCartToStorage();
+      updateCartBadge();
+
+      // Show Success Modal
+      submitBtn.disabled = false;
+      submitText.innerText = '確認送出訂單';
+      closeCheckoutModal();
+
+      document.getElementById('successOrderId').innerText = `#${orderId}`;
+      document.getElementById('successCustName').innerText = custName;
+      document.getElementById('successSummary').innerText = `${totalCups} 杯 / $${totalMoney} 元`;
+      document.getElementById('successCalories').innerText = `${totalCalories} kcal`;
+      document.getElementById('orderSuccessModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeSuccessModalAndReset() {
+      document.getElementById('orderSuccessModal').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // 10. GAS API CONFIGURATION MODAL
+    // -------------------------------------------------------------
+    function openApiConfigModal() {
+      document.getElementById('gasApiUrlInput').value = gasApiUrl;
+      document.getElementById('apiConfigModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeApiConfigModal() {
+      document.getElementById('apiConfigModal').classList.add('hidden');
+    }
+
+    function saveApiConfig() {
+      const url = document.getElementById('gasApiUrlInput').value.trim();
+      gasApiUrl = url;
+      localStorage.setItem(GAS_URL_KEY, url);
+      updateGasStatusUI();
+      closeApiConfigModal();
+      showToast(url ? 'Google Apps Script 串接網址已儲存！' : '已切換為純前端獨立展示模式');
+    }
+
+    function updateGasStatusUI() {
+      const dot = document.getElementById('gasStatusDot');
+      const text = document.getElementById('gasStatusText');
+      if (gasApiUrl) {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
+        text.innerText = '已連接 Google Apps Script 雲端試算表';
+      } else {
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500';
+        text.innerText = '獨立前端模式 (可點擊設定串接試算表)';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 11. NUTRITION GUIDE MODAL & TOAST
+    // -------------------------------------------------------------
+    function openNutritionOverviewModal() {
+      document.getElementById('nutritionOverviewModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeNutritionOverviewModal() {
+      document.getElementById('nutritionOverviewModal').classList.add('hidden');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3200);
+    }
+  </script>
+
+</body>
+</html>
